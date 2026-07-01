@@ -1,16 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router'
-import { TRPCProvider } from '@/providers/trpc'
-import './index.css'
-import App from './App'
+import { StrictMode } from "react"
+import { createRoot } from "react-dom/client"
+import { HashRouter } from "react-router"
+import { TRPCProvider } from "@/providers/trpc"
+import "./index.css"
+import App from "./App"
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter basename="/storyrealm-ai">
+    <HashRouter>
       <TRPCProvider>
         <App />
       </TRPCProvider>
-    </BrowserRouter>
+    </HashRouter>
   </StrictMode>,
 )
