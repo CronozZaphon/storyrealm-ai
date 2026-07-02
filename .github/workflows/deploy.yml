@@ -3,28 +3,30 @@ name: Deploy
 on:
   push:
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: rm -f package-lock.json && npm install --legacy-peer-deps
+      - run: rm -f package-lock.json && npm install
       - run: npx vite build
-        env:
-          CI: false
-          NODE_OPTIONS: --max-old-space-size=4096
-      - run: ls -la dist/
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git checkout --orphan gh-pages-temp
+          git rm -rf .
+          cp -r dist/* .
+          touch .nojekyll
+          git add -A
+          git commit -m "Deploy"
+          git branch -M gh-pages
+          git push -f origin gh-pages
