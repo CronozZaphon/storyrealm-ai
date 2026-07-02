@@ -1,3 +1,5 @@
+declare const puter: any;
+
 // ============================================================
 // STORYREALM AI ENGINE v6 — Premium-First + Auto Key Loading + Integrations Hub
 // ============================================================
@@ -366,6 +368,7 @@ export interface AIGenerateOptions {
   openrouterKey?: string;
   cohereKey?: string;
   targetLanguage?: string;
+  usePuter?: boolean;
 }
 
 /** Generate text with 3-tier fallback: User Premium -> Free APIs -> Local Engine */
@@ -407,6 +410,24 @@ export async function generateWithFallback(
 
   const systemPrompt = systemPrompts[mode] || systemPrompts.story;
   const errors: string[] = [];
+
+  // ===== TIER 0: PUTER.JS (Zero-cost premium AI — NO API KEY NEEDED) =====
+  if (merged.usePuter !== false) {
+    try {
+      if (typeof puter !== 'undefined' && puter.ai?.chat) {
+        const companionInfluence = merged.companionId ? getCompanionPrompt(merged.companionId) : '';
+        const fullSystem = systemPrompt + companionInfluence;
+        const messages: Array<{ role: string; content: string }> = [];
+        if (fullSystem) messages.push({ role: 'system', content: fullSystem });
+        messages.push({ role: 'user', content: userPrompt });
+        const response = await puter.ai.chat(messages, { model: 'gpt-4o', stream: false });
+        const text = response?.toString() || '';
+        if (text.length > 20) return { text, provider: 'Puter.js GPT-4o (Free)' };
+      }
+    } catch (e: any) {
+      errors.push(`Puter.js: ${e.message}`);
+    }
+  }
 
   // ===== TIER 1: PREMIUM PROVIDERS (User's own API keys — BEST QUALITY) =====
   const premiumProviders: Array<{ name: string; fn: () => Promise<string> }> = [];
@@ -459,8 +480,28 @@ export async function generateImage(prompt: string, width = 512, height = 768): 
   return `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${width}&height=${height}&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
 }
 
-/** Translate text — uses premium keys first, then free services */
+/** Translate text — uses Puter/LibreTranslate/premium keys, then free services */
 export async function translateText(text: string, targetLang: string, apiKey?: string): Promise<{ translated: string; provider: string }> {
+  // Try Puter.js translation first (free, high quality)
+  try {
+    if (typeof puter !== 'undefined' && puter.ai?.chat) {
+      const result = await puter.ai.chat([
+        { role: 'system', content: `You are a professional literary translator. Translate the user's text into ${targetLang}. Preserve tone, style, and emotional impact. Only output the translation, nothing else.` },
+        { role: 'user', content: text },
+      ], { model: 'gpt-4o', stream: false });
+      const translated = result?.toString() || '';
+      if (translated && translated.length > 5) return { translated, provider: 'Puter.js Translate (Free)' };
+    }
+  } catch { /* fall through */ }
+
+  // Try LibreTranslate (free, no key)
+  try {
+    const { libreTranslate } = await import('./libretranslate');
+    const translated = await libreTranslate(text, 'auto', targetLang);
+    if (translated && translated !== text) return { translated, provider: 'LibreTranslate (Free)' };
+  } catch { /* fall through */ }
+
+  // Premium keys...
   // Check for stored DeepL key (sr_deepl_key)
   const deeplKey = apiKey || loadUserKey('deepl');
 

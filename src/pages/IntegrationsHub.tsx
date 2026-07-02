@@ -18,6 +18,54 @@ import {
 // Additional integrations beyond AI providers
 const ADDITIONAL_INTEGRATIONS = [
   {
+    id: 'puter',
+    name: 'Puter.js — Premium AI (No API Key!)',
+    category: 'ai',
+    description: 'Get GPT-4o, Claude, and FLUX image generation without any API key. Just click "Connect with Puter" and sign in. Uses a "user-pays" model — completely free for you as the developer.',
+    freeTier: true,
+    alwaysFree: true,
+    setupSteps: [
+      'Click "Connect with Puter" in Settings or the Story Editor.',
+      'A Puter login popup will appear — sign in with any email.',
+      'Done! Premium AI (GPT-4o) is now active for all features.',
+      'No API key needed. AI quality is on par with paid OpenAI.',
+    ],
+    pricing: '100% Free — Puter uses a user-pays model. Users cover their own usage.',
+    url: 'https://puter.com',
+  },
+  {
+    id: 'freetts',
+    name: 'FreeTTS.org — Professional Voices',
+    category: 'audio',
+    description: '400+ neural voices in 75+ languages, 48kHz MP3 output with SRT subtitles. Professional audiobook quality with no API key.',
+    freeTier: true,
+    alwaysFree: true,
+    setupSteps: [
+      'Already available! No setup required.',
+      'Go to Audiobook Lab and select "FreeTTS" as the voice engine.',
+      'Choose from 400+ voices (Jenny, Guy, Aria, Davis, and more).',
+      'Convert your story to professional audiobook audio instantly.',
+    ],
+    pricing: '100% Free — 20 requests/minute limit',
+    url: 'https://freetts.org',
+  },
+  {
+    id: 'libretranslate',
+    name: 'LibreTranslate — Free Translation',
+    category: 'translation',
+    description: 'Open-source translation to 30+ languages. No API key, no signup, self-hostable. Used automatically when DeepL is not configured.',
+    freeTier: true,
+    alwaysFree: true,
+    setupSteps: [
+      'Already enabled! No setup required.',
+      'Go to Story Editor → Translate and choose your language.',
+      'LibreTranslate works automatically alongside other translation options.',
+      'Supports 30+ languages with automatic language detection.',
+    ],
+    pricing: '100% Free — multiple public instances available',
+    url: 'https://libretranslate.com',
+  },
+  {
     id: 'pollinations',
     name: 'Pollinations AI',
     category: 'image',
@@ -431,6 +479,7 @@ export default function IntegrationsHub() {
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
                           <div className={`p-2 rounded-lg ${hasKey ? 'bg-emerald-500/10 text-emerald-400' : 'bg-purple-500/10 text-purple-400'}`}>
+                            {integration.category === 'ai' && <Brain className="w-5 h-5" />}
                             {integration.category === 'image' && <BookOpen className="w-5 h-5" />}
                             {integration.category === 'audio' && <Zap className="w-5 h-5" />}
                             {integration.category === 'translation' && <Globe className="w-5 h-5" />}

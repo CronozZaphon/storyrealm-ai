@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { ChevronLeft, Key, Sparkles, Zap, Heart, Globe, BookOpen, Wand2, Music, Scroll, Shield, Eye, EyeOff, Users, Crown, ArrowRight, Check, ExternalLink, AlertCircle } from 'lucide-react'
 import { hasPremiumKeys, getPreferredProviderName, AI_PROVIDERS } from '@/lib/ai-engine'
+import { getPuterStatus, signInToPuter, signOutFromPuter } from '@/lib/puter-ai'
 
 const COMPANIONS = [
   { id: 'eldrin', name: 'Eldrin the Wise', title: 'Grand Wizard of the Quill', image: './wizard-guide.png', role: 'Guide & Mentor', style: 'Structure, world-building, narrative flow', color: 'text-purple-400' },
@@ -26,11 +27,34 @@ export default function Settings() {
   const [companionSaved, setCompanionSaved] = useState(false)
   const [hasPremium, setHasPremium] = useState(false)
   const [activeProvider, setActiveProvider] = useState('Pollinations AI (Free)')
+  const [puterStatus, setPuterStatus] = useState<{ available: boolean; authenticated: boolean; user?: any }>({ available: false, authenticated: false })
 
   useEffect(() => {
     setHasPremium(hasPremiumKeys())
     setActiveProvider(getPreferredProviderName())
+    // Check Puter.js status
+    const checkPuter = () => {
+      const status = getPuterStatus();
+      setPuterStatus(status);
+    };
+    checkPuter();
+    const interval = setInterval(checkPuter, 5000);
+    return () => clearInterval(interval);
   }, [saved])
+
+  const handlePuterSignIn = async () => {
+    const success = await signInToPuter();
+    if (success) {
+      setPuterStatus(getPuterStatus());
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    }
+  };
+
+  const handlePuterSignOut = async () => {
+    await signOutFromPuter();
+    setPuterStatus(getPuterStatus());
+  };
 
   const handleSave = () => {
     if (openaiKey) localStorage.setItem('sr_openai_key', openaiKey)
@@ -217,6 +241,40 @@ export default function Settings() {
                           : 'StoryRealm works without API keys. Add keys below for premium quality AI across all features.'}
                       </p>
                     </div>
+                  </div>
+                </div>
+
+                {/* Puter.js — Zero-Cost Premium AI */}
+                <div className={`rounded-lg p-4 border ${puterStatus.authenticated ? 'bg-emerald-900/20 border-emerald-800/30' : 'bg-blue-900/20 border-blue-800/30'}`}>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg ${puterStatus.authenticated ? 'bg-emerald-500/10 text-emerald-400' : 'bg-blue-500/10 text-blue-400'}`}>
+                        <Zap className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className={`text-sm font-semibold ${puterStatus.authenticated ? 'text-emerald-300' : 'text-blue-300'}`}>
+                            {puterStatus.authenticated ? `Puter.js Connected (${puterStatus.user?.username || 'User'})` : 'Puter.js — Free Premium AI'}
+                          </p>
+                          {puterStatus.authenticated && (
+                            <Badge className="bg-emerald-600 text-[10px]"><Check className="w-3 h-3 mr-0.5" /> Active</Badge>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-400">
+                          {puterStatus.authenticated
+                            ? 'GPT-4o quality AI active. No API key needed!'
+                            : 'Get GPT-4o, Claude, and FLUX image generation without any API key. Just click Connect and sign in.'}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      className={puterStatus.authenticated ? 'border-red-800 text-red-400 hover:bg-red-900/20' : 'bg-blue-600 hover:bg-blue-700'}
+                      variant={puterStatus.authenticated ? 'outline' : 'default'}
+                      onClick={puterStatus.authenticated ? handlePuterSignOut : handlePuterSignIn}
+                    >
+                      {puterStatus.authenticated ? 'Disconnect' : 'Connect with Puter'}
+                    </Button>
                   </div>
                 </div>
 
