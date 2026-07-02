@@ -105,39 +105,50 @@ export default function StoryEditor() {
   const handleGenerate = async () => {
     if (!instruction.trim()) return
     setIsGenerating(true)
-    const apiKey = localStorage.getItem('openai_api_key') || undefined
-    const result = await generateWithFallback(instruction, mode, storyText.slice(-2000), {
-      companionId, apiKey, openaiKey: apiKey,
-    })
-    if (result.text) {
-      const newText = storyText + (storyText ? '\n\n' : '') + result.text
-      setStoryText(newText)
-      if (storyId) storyDB.saveSession(Number(storyId), newText)
-      setMemory((prev) => [...prev, `[${mode.toUpperCase()}] ${instruction} (${result.provider})`])
-      setLastProvider(result.provider)
-      setCompanionLineType('praises')
-      setCompanionLine(getRandomLine(companion.praises))
+    try {
+      const apiKey = localStorage.getItem('openai_api_key') || undefined
+      const result = await generateWithFallback(instruction, mode, storyText.slice(-2000), {
+        companionId, apiKey, openaiKey: apiKey,
+      })
+      if (result.text) {
+        const newText = storyText + (storyText ? '\n\n' : '') + result.text
+        setStoryText(newText)
+        if (storyId) storyDB.saveSession(Number(storyId), newText)
+        setMemory((prev) => [...prev, `[${mode.toUpperCase()}] ${instruction} (${result.provider})`])
+        setLastProvider(result.provider)
+        setCompanionLineType('praises')
+        setCompanionLine(getRandomLine(companion.praises))
+      }
+    } catch (err: any) {
+      setCompanionLineType('encouragements')
+      setCompanionLine('The AI spirits are restless. Try again in a moment!')
+    } finally {
+      setInstruction('')
+      setIsGenerating(false)
     }
-    setInstruction('')
-    setIsGenerating(false)
   }
 
   const checkGrammar = async () => {
     if (!storyText.trim()) return
     const apiKey = localStorage.getItem('openai_api_key') || undefined
     setIsGenerating(true)
-    const result = await generateWithFallback(storyText, 'grammar', '', { apiKey })
-    setIsGenerating(false)
-    if (result.text) {
-      setGrammarResult({ corrected: result.text, explanations: ['AI-powered grammar improvements applied'] })
-    } else {
+    try {
+      const result = await generateWithFallback(storyText, 'grammar', '', { apiKey })
+      if (result.text) {
+        setGrammarResult({ corrected: result.text, explanations: ['AI-powered grammar improvements applied'] })
+      } else {
+        throw new Error('No grammar result')
+      }
+    } catch (err: any) {
       let corrected = storyText.replace(/\bi\b/g, 'I').replace(/\s{2,}/g, ' ').replace(/\s+([.,;:!?])/g, '$1').replace(/([.,;:!?])([^\s])/g, '$1 $2').replace(/\s+$/g, '')
       const explanations: string[] = []
       if (storyText.match(/\bi\b/)) explanations.push('Capitalized "I" pronouns')
       if (storyText.match(/\s{2,}/)) explanations.push('Removed extra spaces')
       if (storyText.match(/\s+[.,;:!?]/)) explanations.push('Fixed spacing before punctuation')
-      if (explanations.length === 0) explanations.push('Your writing looks great!')
+      if (explanations.length === 0) explanations.push('Your writing looks great! Basic fixes applied.')
       setGrammarResult({ corrected, explanations })
+    } finally {
+      setIsGenerating(false)
     }
     setShowGrammar(true)
   }
@@ -145,32 +156,45 @@ export default function StoryEditor() {
   const getSuggestions = async () => {
     if (!storyText.trim()) return
     setIsGenerating(true)
-    const apiKey = localStorage.getItem('openai_api_key') || undefined
-    const result = await generateWithFallback(storyText, 'suggest', memory.join('\n'), { apiKey })
-    setIsGenerating(false)
-    // Parse suggestions from text
-    const lines = result.text.split('\n').filter(Boolean)
-    const parsed: Suggestion[] = []
-    for (const line of lines) {
-      const match = line.match(/\[?([^\]|]+)\]?\s*(.+)/)
-      if (match) parsed.push({ type: match[1].trim(), message: match[2].trim(), fix: 'Apply this suggestion to improve your writing' })
+    try {
+      const apiKey = localStorage.getItem('openai_api_key') || undefined
+      const result = await generateWithFallback(storyText, 'suggest', memory.join('\n'), { apiKey })
+      const lines = result.text.split('\n').filter(Boolean)
+      const parsed: Suggestion[] = []
+      for (const line of lines) {
+        const match = line.match(/\[?([^\]|]+)\]?\s*(.+)/)
+        if (match) parsed.push({ type: match[1].trim(), message: match[2].trim(), fix: 'Apply this suggestion to improve your writing' })
+      }
+      if (parsed.length === 0) parsed.push(
+        { type: 'Style', message: 'Vary sentence length for better rhythm', fix: 'Mix short and long sentences' },
+        { type: 'Description', message: 'Add sensory details', fix: 'Include sights, sounds, smells' },
+        { type: 'Dialogue', message: 'Give characters distinct voices', fix: 'Unique speech patterns per character' },
+      )
+      setSuggestions(parsed)
+    } catch (err: any) {
+      setSuggestions([
+        { type: 'Style', message: 'Vary sentence length for better rhythm', fix: 'Mix short and long sentences' },
+        { type: 'Description', message: 'Add sensory details', fix: 'Include sights, sounds, smells' },
+        { type: 'Dialogue', message: 'Give characters distinct voices', fix: 'Unique speech patterns per character' },
+      ])
+    } finally {
+      setIsGenerating(false)
     }
-    if (parsed.length === 0) parsed.push(
-      { type: 'Style', message: 'Vary sentence length for better rhythm', fix: 'Mix short and long sentences' },
-      { type: 'Description', message: 'Add sensory details', fix: 'Include sights, sounds, smells' },
-      { type: 'Dialogue', message: 'Give characters distinct voices', fix: 'Unique speech patterns per character' },
-    )
-    setSuggestions(parsed)
     setShowSuggestions(true)
   }
 
   const handleTranslate = async () => {
     if (!storyText.trim()) return
     setIsTranslating(true)
-    const apiKey = localStorage.getItem('deepl_api_key') || undefined
-    const result = await translateText(storyText, translateLang, apiKey)
-    setTranslatedText(result.translated)
-    setIsTranslating(false)
+    try {
+      const apiKey = localStorage.getItem('deepl_api_key') || undefined
+      const result = await translateText(storyText, translateLang, apiKey)
+      setTranslatedText(result.translated)
+    } catch (err: any) {
+      setTranslatedText('Translation unavailable. Please try again or check your API key.')
+    } finally {
+      setIsTranslating(false)
+    }
   }
 
   const handleExport = () => {
