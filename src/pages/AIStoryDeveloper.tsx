@@ -12,7 +12,7 @@ type QaStep = 'start' | 'asking' | 'answering' | 'generating' | 'done'
 
 const COMPANIONS = {
   shadow: {
-    image: '/rogue-mystery.png',
+    image: './rogue-mystery.png',
     name: 'Shadow Whisper',
     autoGreeting: "*materializes from the darkness* You wish to birth a story from nothing? I shall be your midwife...",
     qaGreeting: "*steps closer* I will ask the right questions. Your answers will become the foundation of something... extraordinary.",

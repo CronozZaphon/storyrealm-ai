@@ -9,10 +9,10 @@ import { ChevronLeft, Key, Sparkles, Zap, Heart, Globe, BookOpen, Wand2, Music, 
 import { hasPremiumKeys, getPreferredProviderName, AI_PROVIDERS } from '@/lib/ai-engine'
 
 const COMPANIONS = [
-  { id: 'eldrin', name: 'Eldrin the Wise', title: 'Grand Wizard of the Quill', image: '/wizard-guide.png', role: 'Guide & Mentor', style: 'Structure, world-building, narrative flow', color: 'text-purple-400' },
-  { id: 'lyra', name: 'Lyra Stormblade', title: 'Champion of the Written Word', image: '/warrior-praise.png', role: 'Motivator & Editor', style: 'Action, pacing, character strength', color: 'text-red-400' },
-  { id: 'shadow', name: 'Shadow Whisper', title: 'Keeper of Secrets', image: '/rogue-mystery.png', role: 'Mystery & Suspense', style: 'Tension, plot twists, unreliable narrators', color: 'text-emerald-400' },
-  { id: 'melody', name: 'Melody Quickstring', title: 'Bard of the Eternal Song', image: '/bard-audio.png', role: 'Voice & Dialogue', style: 'Dialogue, voice, rhythm, emotion', color: 'text-amber-400' },
+  { id: 'eldrin', name: 'Eldrin the Wise', title: 'Grand Wizard of the Quill', image: './wizard-guide.png', role: 'Guide & Mentor', style: 'Structure, world-building, narrative flow', color: 'text-purple-400' },
+  { id: 'lyra', name: 'Lyra Stormblade', title: 'Champion of the Written Word', image: './warrior-praise.png', role: 'Motivator & Editor', style: 'Action, pacing, character strength', color: 'text-red-400' },
+  { id: 'shadow', name: 'Shadow Whisper', title: 'Keeper of Secrets', image: './rogue-mystery.png', role: 'Mystery & Suspense', style: 'Tension, plot twists, unreliable narrators', color: 'text-emerald-400' },
+  { id: 'melody', name: 'Melody Quickstring', title: 'Bard of the Eternal Song', image: './bard-audio.png', role: 'Voice & Dialogue', style: 'Dialogue, voice, rhythm, emotion', color: 'text-amber-400' },
 ]
 
 export default function Settings() {

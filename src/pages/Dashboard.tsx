@@ -12,10 +12,10 @@ import { WRITING_TEMPLATES } from '@/lib/ai-engine'
 type Story = { id: number; title: string; genre: string; status: string; updatedAt: string };
 
 const praiseMessages = [
-  { character: 'Eldrin', image: '/wizard-guide.png', message: 'Your creativity knows no bounds, author!' },
-  { character: 'Lyra', image: '/warrior-praise.png', message: 'Every story you write makes you stronger!' },
-  { character: 'Melody', image: '/bard-audio.png', message: 'The realms await your next masterpiece!' },
-  { character: 'Shadow', image: '/rogue-mystery.png', message: 'The shadows whisper of your growing power...' },
+  { character: 'Eldrin', image: './wizard-guide.png', message: 'Your creativity knows no bounds, author!' },
+  { character: 'Lyra', image: './warrior-praise.png', message: 'Every story you write makes you stronger!' },
+  { character: 'Melody', image: './bard-audio.png', message: 'The realms await your next masterpiece!' },
+  { character: 'Shadow', image: './rogue-mystery.png', message: 'The shadows whisper of your growing power...' },
 ];
 
 const statusColors: Record<string, string> = {

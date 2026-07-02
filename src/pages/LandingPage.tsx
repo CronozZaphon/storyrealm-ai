@@ -4,10 +4,10 @@ import { Sparkles, BookOpen, Wand2, Music, Heart, Sword, Scroll, Gem, GitMerge, 
 import { useState, useEffect } from 'react'
 
 const praiseQuotes = [
-  { character: 'Eldrin the Wise', image: '/wizard-guide.png', quote: 'Your stories have the power to shape worlds, brave author!' },
-  { character: 'Lyra Stormblade', image: '/warrior-praise.png', quote: 'A mighty pen is sharper than any sword! Forge on!' },
-  { character: 'Shadow Whisper', image: '/rogue-mystery.png', quote: 'Even in darkness, your tales shine bright...' },
-  { character: 'Melody Quickstring', image: '/bard-audio.png', quote: 'Your words shall become songs sung across the realms!' },
+  { character: 'Eldrin the Wise', image: './wizard-guide.png', quote: 'Your stories have the power to shape worlds, brave author!' },
+  { character: 'Lyra Stormblade', image: './warrior-praise.png', quote: 'A mighty pen is sharper than any sword! Forge on!' },
+  { character: 'Shadow Whisper', image: './rogue-mystery.png', quote: 'Even in darkness, your tales shine bright...' },
+  { character: 'Melody Quickstring', image: './bard-audio.png', quote: 'Your words shall become songs sung across the realms!' },
 ]
 
 const features = [
