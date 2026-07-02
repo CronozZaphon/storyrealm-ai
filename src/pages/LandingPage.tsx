@@ -64,7 +64,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20">
         <div className="absolute inset-0 z-0">
-          <img src="/hero-bg.jpg" alt="" className="w-full h-full object-cover opacity-40" />
+          <img src="./hero-bg.jpg" alt="" className="w-full h-full object-cover opacity-40" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
         </div>
 
@@ -94,10 +94,10 @@ export default function LandingPage() {
 
         {/* Floating Characters */}
         <div className="absolute bottom-0 left-0 w-48 md:w-64 opacity-80 hover:opacity-100 transition-opacity hidden md:block">
-          <img src="/wizard-guide.png" alt="Eldrin the Wise" className="w-full h-auto drop-shadow-2xl" />
+          <img src="./wizard-guide.png" alt="Eldrin the Wise" className="w-full h-auto drop-shadow-2xl" />
         </div>
         <div className="absolute bottom-0 right-0 w-48 md:w-64 opacity-80 hover:opacity-100 transition-opacity hidden md:block">
-          <img src="/warrior-praise.png" alt="Lyra Stormblade" className="w-full h-auto drop-shadow-2xl" />
+          <img src="./warrior-praise.png" alt="Lyra Stormblade" className="w-full h-auto drop-shadow-2xl" />
         </div>
       </section>
 
@@ -191,7 +191,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-amber-950/50 via-purple-950/50 to-amber-950/50" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="mb-8">
-            <img src="/dragon-donate.png" alt="Golden Dragon" className="w-64 md:w-80 mx-auto drop-shadow-2xl" />
+            <img src="./dragon-donate.png" alt="Golden Dragon" className="w-64 md:w-80 mx-auto drop-shadow-2xl" />
           </div>
           <h2 className="text-4xl font-bold mb-4">Support the Realm</h2>
           <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">

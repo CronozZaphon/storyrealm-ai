@@ -168,7 +168,7 @@ export default function ManhuaGenerator() {
 
             {/* Character Companion */}
             <div className="bg-gradient-to-br from-emerald-900/20 to-slate-900 border border-emerald-800/20 rounded-xl p-4 text-center">
-              <img src="/rogue-mystery.png" alt="Shadow Whisper" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover border-2 border-emerald-400/30" />
+              <img src="./rogue-mystery.png" alt="Shadow Whisper" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover border-2 border-emerald-400/30" />
               <p className="text-xs text-emerald-400 font-bold mb-1">Shadow Whisper</p>
               <p className="text-xs text-slate-400 italic">
                 {generated

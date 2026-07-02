@@ -144,19 +144,19 @@ export default function DocsPage() {
                 <p>Choose a companion to guide your writing journey. Each has a unique personality and gives different advice:</p>
                 <div className="grid md:grid-cols-2 gap-3 mt-3">
                   <div className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3">
-                    <img src="/wizard-guide.png" alt="Eldrin" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
+                    <img src="./wizard-guide.png" alt="Eldrin" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
                     <div><p className="font-bold text-amber-400 text-sm">Eldrin the Wise</p><p className="text-xs text-slate-400">Structure, world-building, narrative flow. Patient and thoughtful.</p></div>
                   </div>
                   <div className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3">
-                    <img src="/warrior-praise.png" alt="Lyra" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
+                    <img src="./warrior-praise.png" alt="Lyra" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
                     <div><p className="font-bold text-red-400 text-sm">Lyra Stormblade</p><p className="text-xs text-slate-400">Action, pacing, character strength. Fierce and motivating.</p></div>
                   </div>
                   <div className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3">
-                    <img src="/rogue-mystery.png" alt="Shadow" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
+                    <img src="./rogue-mystery.png" alt="Shadow" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
                     <div><p className="font-bold text-emerald-400 text-sm">Shadow Whisper</p><p className="text-xs text-slate-400">Mystery, tension, plot twists. Enigmatic and clever.</p></div>
                   </div>
                   <div className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-3">
-                    <img src="/bard-audio.png" alt="Melody" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
+                    <img src="./bard-audio.png" alt="Melody" className="w-12 h-12 rounded-full object-cover border border-purple-800/30 shrink-0" />
                     <div><p className="font-bold text-amber-400 text-sm">Melody Quickstring</p><p className="text-xs text-slate-400">Dialogue, voice, rhythm, emotion. Cheerful and lyrical.</p></div>
                   </div>
                 </div>

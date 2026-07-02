@@ -189,7 +189,7 @@ export default function AudiobookCreator() {
 
             {/* Character Companion */}
             <div className="bg-gradient-to-br from-rose-900/20 to-slate-900 border border-rose-800/20 rounded-xl p-4 text-center">
-              <img src="/bard-audio.png" alt="Melody" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover border-2 border-rose-400/30" />
+              <img src="./bard-audio.png" alt="Melody" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover border-2 border-rose-400/30" />
               <p className="text-xs text-rose-400 font-bold mb-1">Melody Quickstring</p>
               <p className="text-xs text-slate-400 italic">
                 {generated

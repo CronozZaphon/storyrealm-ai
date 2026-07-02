@@ -111,7 +111,7 @@ export default function StoryMixer() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Companion Line */}
         <div className="flex items-center gap-3 bg-slate-900/40 border border-indigo-800/20 rounded-xl p-4 mb-8 max-w-lg">
-          <img src="/wizard-guide.png" alt="Eldrin" className="w-12 h-12 rounded-full object-cover border border-amber-400/30 shrink-0" />
+          <img src="./wizard-guide.png" alt="Eldrin" className="w-12 h-12 rounded-full object-cover border border-amber-400/30 shrink-0" />
           <div>
             <p className="text-xs text-amber-400 font-bold">Eldrin the Wise</p>
             <p className="text-sm text-slate-300 italic">"{result ? COMPANION_LINES.done : isMixing ? COMPANION_LINES.mixing : COMPANION_LINES.greeting}"</p>
